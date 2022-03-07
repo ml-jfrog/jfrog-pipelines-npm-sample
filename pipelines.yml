@@ -2,7 +2,7 @@ template: true   # required for local templates
 valuesFilePath: ./values.yml
 
 resources:
-  - name: npm_repo_jfp_example
+  - name: mldemo_npm_repo
     type: GitRepo
     configuration:
       # SCM integration where the repository is located
@@ -13,33 +13,33 @@ resources:
         # Specifies which branches will trigger dependent steps
         include: master
 
-  - name: npm_buildinfo_jfp_example
+  - name: mldemo_npm_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: demoArt
+      sourceArtifactory: artifactory
 
 pipelines:
-  - name: npm_pipeline_jfp_example
+  - name: marcus_demo_npm
     steps:
-      - name: npm_build_step
+      - name: mldemo_npm_build_step
         type: NpmBuild
         configuration:
-          repositoryName: npm-virtual      # required, npm repository name on artifacctory
+          repositoryName: mldemo-npm-virtual      # required, npm repository name on artifacctory
           sourceLocation: .      # required, location of package.json file
           integrations:
-            - name:  demoArt  # required
+            - name: artifactory  # required
           inputResources:
-            - name: npm_repo_jfp_example         # required
+            - name: mldemo_npm_repo         # required
 
-      - name: npm_publish_step
+      - name: mldemo_npm_publish_step
         type: NpmPublish
         configuration:
           # for payloadType npm:
-          repositoryName: npm-virtual        # required, npm repository name on artifactory
+          repositoryName: mldemo-npm-virtual        # required, npm repository name on artifactory
           autoPublishBuildInfo: true       # optional
           integrations:
-            - name: demoArt      # required
+            - name: artifactory      # required
           inputSteps:
-            - name: npm_build_step                # required
+            - name: mldemo_npm_build_step                # required
           outputResources:
-            - name: npm_buildinfo_jfp_example                 # optional
+            - name: mldemo_npm_buildinfo                 # optional
