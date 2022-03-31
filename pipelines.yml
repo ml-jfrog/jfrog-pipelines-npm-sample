@@ -16,7 +16,7 @@ resources:
   - name: mldemo_npm_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: artifactory
+      sourceArtifactory: ml_artifactory
 
 pipelines:
   - name: marcus_demo_npm
